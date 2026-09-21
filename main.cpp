@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 #include <vector>
 
 
@@ -29,16 +30,17 @@ int main() {
         MainMenu();
         cout <<"enter your choice" << endl;
         cin >> choice ;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         if (choice == 1) {
             cout <<"add the student name" << endl;
-            cin >> name ;
+            getline(cin, name);
             students.push_back({name, {}});
             cout << "student " << name << " added successfully" << endl;
         }
         else if (choice == 2) {
 
             cout <<"enter the student name" << endl;
-            cin >> name ;
+            getline (cin, name);
             int found = 0;
 
             for (int i = 0; i < students.size(); i++) {
@@ -57,13 +59,12 @@ int main() {
         }
         else if (choice == 3) {
             cout <<"enter the student name" << endl;
-            cin >> name ;
+            getline(cin , name);
             int found=0;
             for (int i = 0; i < students.size(); i++) {
                 if (students[i].name == name) {
                     cout << "Enter the course name" << endl;
-                    cin >> course;
-
+                    getline (cin , course) ;
                     students[i].courses.push_back(course);
 
                     cout << "Course " << course << " added successfully the student " << name  << endl;
@@ -80,7 +81,7 @@ int main() {
         }
         else if (choice == 4) {
             cout << "Enter the student name" << endl;
-            cin >> name;
+            getline (cin , name);
 
             int studentFound = 0;
 
@@ -89,8 +90,7 @@ int main() {
                     studentFound = 1;
 
                     cout << "Enter the course name" << endl;
-                    cin >> course;
-
+                    getline (cin , course) ;
                     int courseFound = 0;
 
                     for (int j = 0; j < students[i].courses.size(); j++) {
@@ -119,17 +119,25 @@ int main() {
             }
         }
         else if (choice == 5) {
-            cout << "---------------------------------" << endl;
-
-            for (int i = 0; i < students.size(); i++) {
-                cout << "Student: " << students[i].name << " || " << "Courses: ";
-
-                for (int j = 0; j < students[i].courses.size(); j++) {
-                    cout << students[i].courses[j] << " ";
-                }
-
-                cout << endl;
+            if (students.empty()) {
+                cout << "No students registered." << endl;
+            } else {
                 cout << "---------------------------------" << endl;
+
+                for (int i = 0; i < students.size(); i++) {
+                    cout << "Student: " << students[i].name << " || Courses: ";
+
+                    if (students[i].courses.empty()) {
+                        cout << "No courses registered";
+                    } else {
+                        for (int j = 0; j < students[i].courses.size(); j++) {
+                            cout << students[i].courses[j] << " . ";
+                        }
+                    }
+
+                    cout << endl;
+                    cout << "---------------------------------" << endl;
+                }
             }
         }
         else if (choice == 6) {
